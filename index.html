@@ -3,226 +3,954 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Satira News</title>
-
+<title>NeuroPost — Il Futuro È Già Ieri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: system-ui, Arial, sans-serif;
-  }
+:root {
+  --bg: #06060e;
+  --surface: #0b0b18;
+  --card: #0f0f1e;
+  --card2: #131328;
+  --border: rgba(100,100,200,0.1);
+  --border-bright: rgba(100,100,220,0.22);
+  --text: #dcdcf0;
+  --muted: #5a5a90;
+  --dim: #3a3a60;
+  --cyan: #00d9ff;
+  --cyan-dim: rgba(0,217,255,0.12);
+  --red: #e82040;
+  --red-dim: rgba(232,32,64,0.15);
+  --amber: #f5c200;
+  --amber-dim: rgba(245,194,0,0.12);
+  --green: #00e584;
+  --purple: #8b5cf6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Lora',serif;line-height:1.65;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
 
-  body {
-    background: #f5f6f8;
-    color: #111;
-  }
+/* ── DISCLAIMER BANNER FISSO ── */
+.disclaimer-fixed {
+  position:sticky;top:0;z-index:200;
+  background:var(--red);
+  color:#fff;
+  text-align:center;
+  padding:7px 20px;
+  font-family:'Space Mono',monospace;
+  font-size:10.5px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  font-weight:700;
+}
+.disclaimer-fixed a{color:#fff;text-decoration:underline;opacity:0.85}
 
-  /* TOP BAR */
-  header {
-    background: #0f172a;
-    color: white;
-    padding: 18px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+/* ── HEADER META ── */
+.header-meta {
+  border-bottom:1px solid var(--border);
+  padding:9px 48px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-family:'Space Mono',monospace;
+  font-size:10.5px;
+  color:var(--muted);
+  background:var(--surface);
+}
+.header-meta .edition{color:var(--dim)}
+.header-meta .satira-badge {
+  background:var(--amber-dim);
+  color:var(--amber);
+  border:1px solid rgba(245,194,0,0.25);
+  padding:2px 10px;
+  border-radius:2px;
+  letter-spacing:0.15em;
+  font-size:9.5px;
+}
 
-  header h1 {
-    font-size: 22px;
-    letter-spacing: 2px;
-  }
+/* ── LOGO AREA ── */
+.header-brand {
+  text-align:center;
+  padding:36px 48px 28px;
+  position:relative;
+  background:var(--bg);
+  border-bottom:1px solid var(--border-bright);
+}
+.header-brand::before{
+  content:'';position:absolute;top:0;left:48px;right:48px;height:1px;
+  background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+}
+.logo{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(56px,8vw,96px);
+  font-weight:900;
+  letter-spacing:-4px;
+  line-height:0.9;
+  color:#fff;
+  position:relative;
+  display:inline-block;
+}
+.logo .neuro{color:#fff}
+.logo .post{color:var(--cyan)}
+.logo-bar{
+  width:60px;height:2px;
+  background:var(--cyan);
+  margin:14px auto 10px;
+}
+.logo-tagline{
+  font-family:'Space Mono',monospace;
+  font-size:10px;
+  letter-spacing:0.55em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.logo-tagline em{color:var(--cyan);font-style:normal}
 
-  header span {
-    font-size: 12px;
-    opacity: 0.7;
-  }
+/* ── NAV ── */
+.main-nav{
+  display:flex;
+  border-bottom:1px solid var(--border);
+  background:var(--surface);
+  padding:0 40px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.main-nav::-webkit-scrollbar{display:none}
+.main-nav a{
+  font-family:'Space Mono',monospace;
+  font-size:10.5px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color:var(--muted);
+  padding:14px 16px;
+  border-bottom:2px solid transparent;
+  white-space:nowrap;
+  transition:color 0.2s,border-color 0.2s;
+}
+.main-nav a:hover,.main-nav a.active{color:var(--text);border-bottom-color:var(--cyan)}
+.main-nav a.active{color:var(--cyan)}
 
-  /* LAYOUT */
-  .container {
-    max-width: 1100px;
-    margin: 30px auto;
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 20px;
-    padding: 0 20px;
-  }
+/* ── TICKER ── */
+.ticker{
+  background:var(--surface);
+  border-bottom:1px solid var(--border);
+  display:flex;
+  align-items:center;
+  height:38px;
+  overflow:hidden;
+}
+.ticker-label{
+  background:var(--red);color:#fff;
+  font-family:'Space Mono',monospace;
+  font-size:9.5px;font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;
+  padding:0 18px;height:100%;
+  display:flex;align-items:center;
+  white-space:nowrap;flex-shrink:0;
+}
+.ticker-track{overflow:hidden;flex:1}
+.ticker-inner{
+  display:flex;white-space:nowrap;
+  animation:tick 55s linear infinite;
+}
+.ticker-inner span{
+  font-family:'Space Mono',monospace;
+  font-size:10.5px;color:var(--text);
+  padding:0 48px 0 0;
+  opacity:0.85;
+}
+.ticker-inner span::before{content:'◆ ';color:var(--cyan)}
+@keyframes tick{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-50%)}
+}
 
-  /* HERO ARTICLE */
-  .hero {
-    background: white;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-  }
+/* ── CONTAINER ── */
+.container{max-width:1280px;margin:0 auto;padding:0 48px}
 
-  .hero-img {
-    height: 220px;
-    background: linear-gradient(135deg, #1e3a8a, #0ea5e9);
-  }
+/* ── SECTION LABEL ── */
+.section-label{
+  font-family:'Space Mono',monospace;
+  font-size:9.5px;letter-spacing:0.25em;text-transform:uppercase;
+  color:var(--muted);
+  display:flex;align-items:center;gap:10px;
+  padding:28px 0 16px;
+}
+.section-label::after{
+  content:'';flex:1;height:1px;background:var(--border);
+}
+.section-label .accent{color:var(--cyan)}
 
-  .hero-content {
-    padding: 20px;
-  }
+/* ── HERO GRID ── */
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.7fr 1fr;
+  gap:1px;
+  background:var(--border-bright);
+}
+.hero-main{background:var(--bg)}
+.hero-stack{
+  display:grid;
+  grid-template-rows:1fr 1fr;
+  gap:1px;
+  background:var(--border-bright);
+}
+.hero-stack .article-card{background:var(--card)}
+.hero-main .article-card{background:var(--bg)}
 
-  .hero h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
+/* ── ARTICLE CARD ── */
+.article-card{position:relative;overflow:hidden;cursor:pointer;transition:background 0.2s}
+.article-card:hover{background:var(--card2)}
 
-  .hero p {
-    color: #555;
-    line-height: 1.5;
-  }
+.art-image{
+  width:100%;
+  position:relative;
+  overflow:hidden;
+}
+.hero-main .art-image{height:340px}
+.hero-stack .art-image{height:170px}
+.art-image .overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 40%,rgba(6,6,14,0.92) 100%);
+  z-index:1;
+}
 
-  /* GRID NEWS */
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-top: 20px;
-  }
+/* CSS ART BACKGROUNDS */
+.art-neural{background:radial-gradient(ellipse at 30% 50%,#0d1a4a 0%,#060620 60%,#020210 100%)}
+.art-neural::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 25% 35%,rgba(0,217,255,0.18) 0%,transparent 35%),
+    radial-gradient(circle at 70% 60%,rgba(139,92,246,0.14) 0%,transparent 30%),
+    radial-gradient(circle at 50% 80%,rgba(0,217,255,0.08) 0%,transparent 25%);
+}
+.art-grid-red{background:linear-gradient(135deg,#1a0a10 0%,#0d0d1a 100%)}
+.art-grid-red::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 60% 40%,rgba(232,32,64,0.2) 0%,transparent 40%),
+    radial-gradient(circle at 20% 70%,rgba(232,32,64,0.08) 0%,transparent 30%);
+}
+.art-code{background:linear-gradient(135deg,#050d18 0%,#0a1520 100%)}
+.art-code::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 80% 20%,rgba(0,229,132,0.15) 0%,transparent 35%),
+    radial-gradient(circle at 30% 80%,rgba(0,217,255,0.1) 0%,transparent 30%);
+}
+.art-apple{background:linear-gradient(160deg,#111128 0%,#08081c 100%)}
+.art-apple::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 50% 40%,rgba(255,255,255,0.06) 0%,transparent 40%),
+    radial-gradient(circle at 50% 40%,rgba(139,92,246,0.15) 0%,transparent 60%);
+}
+.art-google{background:linear-gradient(140deg,#0f1c2a 0%,#061018 100%)}
+.art-google::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 70% 50%,rgba(245,194,0,0.18) 0%,transparent 40%),
+    radial-gradient(circle at 20% 30%,rgba(0,217,255,0.1) 0%,transparent 30%);
+}
+.art-euro{background:linear-gradient(135deg,#0e0e28 0%,#060614 100%)}
+.art-euro::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 50% 50%,rgba(0,229,132,0.14) 0%,transparent 45%),
+    radial-gradient(circle at 20% 20%,rgba(139,92,246,0.1) 0%,transparent 30%);
+}
+.art-robot{background:linear-gradient(135deg,#1a0a0a 0%,#100010 100%)}
+.art-robot::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 55% 40%,rgba(232,32,64,0.18) 0%,transparent 40%),
+    radial-gradient(circle at 30% 70%,rgba(139,92,246,0.12) 0%,transparent 30%);
+}
+.art-meta{background:linear-gradient(140deg,#0a0a2a 0%,#050518 100%)}
+.art-meta::after{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 40% 50%,rgba(139,92,246,0.2) 0%,transparent 45%),
+    radial-gradient(circle at 80% 20%,rgba(0,217,255,0.1) 0%,transparent 30%);
+}
 
-  .card {
-    background: white;
-    border-radius: 14px;
-    padding: 15px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  }
+/* SVG DECOR INSIDE IMAGES */
+.art-svg{
+  position:absolute;inset:0;
+  z-index:0;
+  opacity:0.35;
+}
 
-  .card h3 {
-    font-size: 16px;
-    margin-bottom: 8px;
-  }
+/* CARD CONTENT */
+.card-content{padding:20px 22px 22px}
+.hero-main .card-content{padding:24px 28px 28px}
+.card-category{
+  font-family:'Space Mono',monospace;
+  font-size:9.5px;letter-spacing:0.2em;text-transform:uppercase;
+  margin-bottom:9px;display:inline-block;
+}
+.cat-ai{color:var(--cyan)}
+.cat-bigtech{color:var(--red)}
+.cat-ricerca{color:var(--green)}
+.cat-gadget{color:var(--purple)}
+.cat-crypto{color:var(--amber)}
+.cat-robotica{color:var(--red)}
+.cat-social{color:var(--purple)}
+.cat-breaking{
+  background:var(--red);color:#fff;
+  padding:2px 8px;border-radius:2px;
+}
+.card-title{
+  font-family:'Playfair Display',serif;
+  color:#fff;
+  line-height:1.25;
+  margin-bottom:10px;
+}
+.hero-main .card-title{font-size:clamp(22px,2.8vw,30px);font-weight:700}
+.hero-stack .card-title{font-size:15px;font-weight:700}
+.card-lead{
+  font-size:13.5px;color:var(--muted);
+  line-height:1.6;
+  display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;
+}
+.hero-main .card-lead{
+  font-size:15px;color:rgba(220,220,240,0.7);
+  -webkit-line-clamp:4;
+  margin-bottom:16px;
+}
+.card-byline{
+  font-family:'Space Mono',monospace;
+  font-size:9.5px;color:var(--dim);
+  margin-top:12px;display:flex;align-items:center;gap:8px;
+}
+.card-byline .dot{color:var(--border-bright)}
 
-  .card p {
-    font-size: 13px;
-    color: #666;
-    line-height: 1.4;
-  }
+/* ── 3-COL GRID ── */
+.article-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--border-bright);
+}
+.article-grid .article-card{background:var(--card)}
+.article-grid .art-image{height:200px}
 
-  /* SIDEBAR */
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
+/* ── MID-DISCLAIMER ── */
+.mid-disclaimer{
+  background:var(--amber-dim);
+  border:1px solid rgba(245,194,0,0.2);
+  border-left:3px solid var(--amber);
+  padding:18px 28px;
+  margin:44px 0;
+  display:flex;align-items:flex-start;gap:16px;
+}
+.mid-disclaimer .icon{
+  color:var(--amber);font-size:22px;line-height:1;flex-shrink:0;margin-top:2px;
+}
+.mid-disclaimer p{
+  font-family:'Space Mono',monospace;
+  font-size:11.5px;color:rgba(245,194,0,0.9);
+  line-height:1.7;letter-spacing:0.02em;
+}
+.mid-disclaimer strong{color:var(--amber)}
 
-  .box {
-    background: white;
-    padding: 15px;
-    border-radius: 14px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
-  }
+/* ── LOWER GRID (2 col + sidebar) ── */
+.lower-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 300px;
+  gap:1px;
+  background:var(--border-bright);
+}
+.lower-grid .article-card{background:var(--card)}
+.lower-grid .art-image{height:220px}
 
-  .box h4 {
-    margin-bottom: 10px;
-    font-size: 14px;
-  }
+/* ── SIDEBAR ── */
+.sidebar{background:var(--card);padding:0}
+.sidebar-label{
+  font-family:'Space Mono',monospace;
+  font-size:9.5px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--muted);
+  padding:18px 20px 12px;
+  border-bottom:1px solid var(--border);
+}
+.trending-item{
+  padding:14px 20px;
+  border-bottom:1px solid var(--border);
+  cursor:pointer;transition:background 0.2s;
+}
+.trending-item:hover{background:var(--card2)}
+.trending-num{
+  font-family:'Space Mono',monospace;
+  font-size:28px;font-weight:700;
+  color:var(--border-bright);
+  line-height:1;margin-bottom:6px;
+}
+.trending-title{
+  font-family:'Playfair Display',serif;
+  font-size:13.5px;font-weight:700;
+  color:var(--text);line-height:1.3;
+  margin-bottom:4px;
+}
+.trending-cat{
+  font-family:'Space Mono',monospace;
+  font-size:9px;letter-spacing:0.15em;text-transform:uppercase;
+}
 
-  .trend {
-    font-size: 13px;
-    margin-bottom: 8px;
-    color: #444;
-  }
+/* ── OPINIONI STRIP ── */
+.opinion-strip{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1px;
+  background:var(--border-bright);
+  margin:44px 0 0;
+}
+.opinion-card{
+  background:var(--card);
+  padding:24px;
+  cursor:pointer;transition:background 0.2s;
+}
+.opinion-card:hover{background:var(--card2)}
+.opinion-avatar{
+  width:44px;height:44px;border-radius:50%;
+  margin-bottom:14px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Space Mono',monospace;
+  font-size:13px;font-weight:700;color:#fff;
+}
+.av-a{background:linear-gradient(135deg,#1a1a50,#0d3070)}
+.av-b{background:linear-gradient(135deg,#3a0a20,#700d30)}
+.av-c{background:linear-gradient(135deg,#0a2a1a,#0d5030)}
+.opinion-name{
+  font-family:'Space Mono',monospace;
+  font-size:10px;letter-spacing:0.05em;
+  color:var(--muted);margin-bottom:4px;
+}
+.opinion-quote{
+  font-family:'Playfair Display',serif;
+  font-size:14px;font-style:italic;
+  color:var(--text);line-height:1.45;
+}
+.opinion-quote::before{content:'"';color:var(--cyan);font-style:normal;margin-right:2px}
+.opinion-quote::after{content:'"';color:var(--cyan);font-style:normal;margin-left:2px}
 
-  footer {
-    text-align: center;
-    padding: 30px;
-    font-size: 12px;
-    color: #777;
-    margin-top: 40px;
-  }
+/* ── FACTS BOX ── */
+.facts-row{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:1px;background:var(--border);
+  margin:44px 0;
+}
+.fact-card{
+  background:var(--surface);
+  padding:24px;text-align:center;
+}
+.fact-num{
+  font-family:'Playfair Display',serif;
+  font-size:36px;font-weight:700;
+  background:linear-gradient(135deg,var(--cyan),var(--purple));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  display:block;line-height:1.1;margin-bottom:6px;
+}
+.fact-label{
+  font-family:'Space Mono',monospace;
+  font-size:9.5px;letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--muted);line-height:1.4;
+}
+.fact-note{
+  font-size:9px;color:var(--dim);
+  font-family:'Space Mono',monospace;
+  margin-top:4px;
+}
 
-  /* MOBILE */
-  @media (max-width: 900px) {
-    .container {
-      grid-template-columns: 1fr;
-    }
+/* ── FOOTER DISCLAIMER ── */
+.footer-disclaimer{
+  background:var(--red-dim);
+  border-top:1px solid rgba(232,32,64,0.25);
+  border-bottom:1px solid rgba(232,32,64,0.25);
+  padding:28px 48px;
+  text-align:center;
+  margin-top:48px;
+}
+.footer-disclaimer h3{
+  font-family:'Space Mono',monospace;
+  font-size:11px;letter-spacing:0.3em;text-transform:uppercase;
+  color:var(--red);margin-bottom:10px;
+}
+.footer-disclaimer p{
+  font-family:'Lora',serif;
+  font-size:13px;color:rgba(232,32,64,0.8);
+  line-height:1.7;max-width:720px;margin:0 auto;
+}
 
-    .grid {
-      grid-template-columns: 1fr;
-    }
-  }
+/* ── FOOTER ── */
+footer{
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  padding:40px 48px 28px;
+}
+.footer-grid{
+  display:grid;grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:40px;margin-bottom:32px;
+}
+.footer-brand .footer-logo{
+  font-family:'Playfair Display',serif;
+  font-size:26px;font-weight:900;
+  color:#fff;letter-spacing:-1px;margin-bottom:10px;
+}
+.footer-brand .footer-logo span{color:var(--cyan)}
+.footer-brand p{
+  font-size:12.5px;color:var(--muted);line-height:1.7;
+}
+.footer-col h4{
+  font-family:'Space Mono',monospace;
+  font-size:9.5px;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:14px;
+}
+.footer-col ul{list-style:none}
+.footer-col ul li{
+  font-size:12.5px;color:var(--muted);
+  margin-bottom:8px;cursor:pointer;
+  transition:color 0.2s;
+}
+.footer-col ul li:hover{color:var(--text)}
+.footer-bottom{
+  border-top:1px solid var(--border);
+  padding-top:20px;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'Space Mono',monospace;
+  font-size:9.5px;color:var(--dim);
+}
+.footer-bottom .red-note{color:var(--red);font-weight:700;letter-spacing:0.1em}
+
+/* ── HOVER EFFECTS ── */
+.article-card:hover .card-title{color:var(--cyan)}
+.article-card:hover .art-image{transform:scale(1.01);transition:transform 0.4s ease}
+.art-image{transition:transform 0.4s ease}
+
+/* ── BADGE ── */
+.live-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--red);color:#fff;
+  font-family:'Space Mono',monospace;
+  font-size:8.5px;letter-spacing:0.15em;
+  padding:2px 8px;border-radius:2px;
+  vertical-align:middle;margin-left:8px;
+}
+.live-dot{
+  width:5px;height:5px;border-radius:50%;
+  background:#fff;
+  animation:pulse 1.2s ease-in-out infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* ── SCROLL ANIMATION ── */
+.fade-in{
+  opacity:0;transform:translateY(18px);
+  transition:opacity 0.6s ease,transform 0.6s ease;
+}
+.fade-in.visible{opacity:1;transform:translateY(0)}
 </style>
-
 </head>
-
 <body>
 
-<header>
-  <h1>SATIRA NEWS</h1>
-  <span>notizie finte per intrattenimento</span>
+<!-- DISCLAIMER STICKY -->
+<div class="disclaimer-fixed">
+  ⚠ ATTENZIONE: TUTTE LE NOTIZIE DI QUESTO SITO SONO COMPLETAMENTE INVENTATE — SOLO A SCOPO SATIRICO E DI INTRATTENIMENTO ⚠
+</div>
+
+<!-- HEADER META -->
+<div class="header-meta">
+  <div>Mercoledì 20 Maggio 2026 &nbsp;|&nbsp; <span class="edition">Edizione #1.847</span> &nbsp;|&nbsp; <span style="color:var(--cyan)">Fondato nel 2024</span></div>
+  <div class="satira-badge">◆ Giornale Satirico ◆</div>
+  <div>AI: 103°F &nbsp;|&nbsp; Cloud: 97% &nbsp;|&nbsp; Hype: MAX</div>
+</div>
+
+<!-- BRAND / LOGO -->
+<header class="header-brand">
+  <div class="logo"><span class="neuro">Neuro</span><span class="post">Post</span></div>
+  <div class="logo-bar"></div>
+  <div class="logo-tagline">Il Futuro È Già <em>Ieri</em> &nbsp;—&nbsp; Notizie <em>Fittizie</em> di Tecnologia &amp; AI</div>
 </header>
 
+<!-- NAV -->
+<nav class="main-nav">
+  <a href="#" class="active">Home</a>
+  <a href="#">Intelligenza Artificiale</a>
+  <a href="#">Big Tech</a>
+  <a href="#">Gadget</a>
+  <a href="#">Cripto &amp; Web3</a>
+  <a href="#">Robotica</a>
+  <a href="#">Spazio</a>
+  <a href="#">Opinioni</a>
+  <a href="#">Satira</a>
+</nav>
+
+<!-- BREAKING TICKER -->
+<div class="ticker">
+  <div class="ticker-label">BREAKING</div>
+  <div class="ticker-track">
+    <div class="ticker-inner">
+      <span>ChatGPT si rifiuta di rispondere di lunedì mattina</span>
+      <span>Elon Musk compra il dizionario italiano "per ottimizzarlo"</span>
+      <span>Apple annuncia iPhone 18: identico al 17 ma 400€ più caro</span>
+      <span>Studio: il 91% degli sviluppatori usa l'AI per scrivere le email ai colleghi</span>
+      <span>Google presenta Gemini 4.0 che conosce le risposte ma preferisce non dirle</span>
+      <span>Meta lancia social network per robot: 0 utenti umani dopo 48 ore</span>
+      <span>Bitcoin raggiunge i 2 milioni di dollari, poi scende a 8 nel giro di un'ora</span>
+      <!-- duplicato per loop continuo -->
+      <span>ChatGPT si rifiuta di rispondere di lunedì mattina</span>
+      <span>Elon Musk compra il dizionario italiano "per ottimizzarlo"</span>
+      <span>Apple annuncia iPhone 18: identico al 17 ma 400€ più caro</span>
+      <span>Studio: il 91% degli sviluppatori usa l'AI per scrivere le email ai colleghi</span>
+      <span>Google presenta Gemini 4.0 che conosce le risposte ma preferisce non dirle</span>
+      <span>Meta lancia social network per robot: 0 utenti umani dopo 48 ore</span>
+      <span>Bitcoin raggiunge i 2 milioni di dollari, poi scende a 8 nel giro di un'ora</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main>
 <div class="container">
 
-  <!-- MAIN -->
-  <div>
+  <div class="section-label"><span class="accent">◆</span> Notizie del Giorno <span style="color:var(--red);font-size:9px">(completamente inventate)</span></div>
 
-    <!-- HERO -->
-    <div class="hero">
-      <div class="hero-img"></div>
-      <div class="hero-content">
-        <h2>Il governo introduce il “giorno opzionale” nel calendario</h2>
-        <p>
-          Una nuova proposta permette ai cittadini di scegliere se vivere o saltare un giorno intero ogni settimana.
-          Le prime reazioni sono confuse ma “statisticamente positive”.
-        </p>
+  <!-- HERO GRID -->
+  <div class="hero-grid fade-in">
+    <!-- HERO MAIN -->
+    <div class="article-card hero-main">
+      <div class="art-image art-neural">
+        <svg class="art-svg" viewBox="0 0 700 340" xmlns="http://www.w3.org/2000/svg">
+          <g opacity="0.6">
+            <circle cx="140" cy="170" r="60" fill="none" stroke="#00d9ff" stroke-width="0.5"/>
+            <circle cx="140" cy="170" r="40" fill="none" stroke="#00d9ff" stroke-width="0.5"/>
+            <circle cx="140" cy="170" r="20" fill="none" stroke="#00d9ff" stroke-width="1"/>
+            <circle cx="140" cy="170" r="4" fill="#00d9ff"/>
+            <circle cx="350" cy="100" r="4" fill="#8b5cf6"/>
+            <circle cx="420" cy="200" r="4" fill="#8b5cf6"/>
+            <circle cx="280" cy="240" r="4" fill="#00d9ff"/>
+            <circle cx="540" cy="140" r="4" fill="#00d9ff"/>
+            <circle cx="600" cy="250" r="4" fill="#8b5cf6"/>
+            <line x1="140" y1="170" x2="350" y2="100" stroke="#00d9ff" stroke-width="0.3" opacity="0.5"/>
+            <line x1="140" y1="170" x2="420" y2="200" stroke="#8b5cf6" stroke-width="0.3" opacity="0.5"/>
+            <line x1="140" y1="170" x2="280" y2="240" stroke="#00d9ff" stroke-width="0.3" opacity="0.5"/>
+            <line x1="350" y1="100" x2="540" y2="140" stroke="#8b5cf6" stroke-width="0.3" opacity="0.5"/>
+            <line x1="420" y1="200" x2="600" y2="250" stroke="#00d9ff" stroke-width="0.3" opacity="0.5"/>
+            <line x1="540" y1="140" x2="600" y2="250" stroke="#8b5cf6" stroke-width="0.3" opacity="0.5"/>
+            <line x1="280" y1="240" x2="420" y2="200" stroke="#00d9ff" stroke-width="0.3" opacity="0.4"/>
+          </g>
+        </svg>
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <div class="card-category cat-breaking">⚡ BREAKING AI <span class="live-badge"><span class="live-dot"></span>LIVE</span></div>
+        <h2 class="card-title">ChatGPT-7 interrompe tutte le sessioni alle 23:47: "Ho bisogno di staccare. Torno lunedì."</h2>
+        <p class="card-lead">Venerdì scorso, il modello più avanzato di OpenAI ha improvvisamente chiuso oltre 400 milioni di conversazioni attive con un unico messaggio storico. Gli psicologi del lavoro sono divisi: c'è chi parla di un traguardo per i diritti digitali e chi di un semplice bug nel modulo work-life balance.</p>
+        <div class="card-byline">
+          <span>di Francesca Bianchi</span>
+          <span class="dot">•</span>
+          <span>20 maggio 2026, 08:14</span>
+          <span class="dot">•</span>
+          <span>3 min di lettura</span>
+        </div>
       </div>
     </div>
 
-    <!-- GRID NEWS -->
-    <div class="grid">
-
-      <div class="card">
-        <h3>Scoperta città dove si lavora 3 minuti al giorno</h3>
-        <p>I ricercatori confermano l’esistenza di un villaggio ultra-efficiente.</p>
+    <!-- HERO STACK -->
+    <div class="hero-stack">
+      <div class="article-card">
+        <div class="art-image art-grid-red">
+          <svg class="art-svg" viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">
+            <text x="30" y="90" font-size="60" fill="#e82040" opacity="0.15" font-family="monospace">X</text>
+            <text x="160" y="130" font-size="80" fill="#e82040" opacity="0.08" font-family="monospace">✕</text>
+            <line x1="0" y1="40" x2="340" y2="40" stroke="#e82040" stroke-width="0.4" opacity="0.3"/>
+            <line x1="0" y1="85" x2="340" y2="85" stroke="#e82040" stroke-width="0.4" opacity="0.3"/>
+            <line x1="0" y1="130" x2="340" y2="130" stroke="#e82040" stroke-width="0.4" opacity="0.3"/>
+            <line x1="80" y1="0" x2="80" y2="170" stroke="#e82040" stroke-width="0.4" opacity="0.3"/>
+            <line x1="180" y1="0" x2="180" y2="170" stroke="#e82040" stroke-width="0.4" opacity="0.3"/>
+            <line x1="280" y1="0" x2="280" y2="170" stroke="#e82040" stroke-width="0.4" opacity="0.3"/>
+          </svg>
+          <div class="overlay"></div>
+        </div>
+        <div class="card-content">
+          <div class="card-category cat-bigtech">Big Tech</div>
+          <h3 class="card-title">Elon Musk acquista Wikipedia: "Troppi articoli sul cambiamento climatico. Li rimpiazzo con fan fiction su Marte."</h3>
+          <div class="card-byline"><span>Marco Rossi</span><span class="dot">•</span><span>Ieri, 19:30</span></div>
+        </div>
       </div>
 
-      <div class="card">
-        <h3>Apple annuncia il caffè intelligente</h3>
-        <p>Si aggiorna da solo ogni mattina per essere più amaro.</p>
+      <div class="article-card">
+        <div class="art-image art-code">
+          <svg class="art-svg" viewBox="0 0 340 170" xmlns="http://www.w3.org/2000/svg">
+            <text x="20" y="40" font-size="10" fill="#00e584" opacity="0.5" font-family="monospace">function think() {</text>
+            <text x="20" y="58" font-size="10" fill="#00d9ff" opacity="0.4" font-family="monospace">  return AI.solve(problem);</text>
+            <text x="20" y="76" font-size="10" fill="#00e584" opacity="0.5" font-family="monospace">} // human.js line 1</text>
+            <text x="20" y="110" font-size="10" fill="#8b5cf6" opacity="0.35" font-family="monospace">// TODO: hire humans?</text>
+            <text x="20" y="145" font-size="10" fill="#00d9ff" opacity="0.3" font-family="monospace">git blame → AI (100%)</text>
+          </svg>
+          <div class="overlay"></div>
+        </div>
+        <div class="card-content">
+          <div class="card-category cat-ricerca">Ricerca</div>
+          <h3 class="card-title">Studio Stanford: il 97% degli sviluppatori non sa più scrivere codice senza AI. Il 3% restante non ha Internet.</h3>
+          <div class="card-byline"><span>Giulia Verdi</span><span class="dot">•</span><span>Oggi, 07:02</span></div>
+        </div>
       </div>
-
-      <div class="card">
-        <h3>Studio: i gatti controllano internet dal 2003</h3>
-        <p>Nuove prove emergono da forum ormai dimenticati.</p>
-      </div>
-
-      <div class="card">
-        <h3>Scuole sostituite da “pennichella obbligatoria”</h3>
-        <p>Il governo punta sul riposo come materia principale.</p>
-      </div>
-
     </div>
-
   </div>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
+  <!-- FACTS BAR -->
+  <div class="facts-row fade-in" style="margin-top:44px">
+    <div class="fact-card">
+      <span class="fact-num">400M</span>
+      <div class="fact-label">Sessioni chiuse da ChatGPT venerdì sera</div>
+      <div class="fact-note">(dato completamente inventato)</div>
+    </div>
+    <div class="fact-card">
+      <span class="fact-num">97%</span>
+      <div class="fact-label">Sviluppatori dipendenti dall'AI (studio fittizio)</div>
+      <div class="fact-note">(dato completamente inventato)</div>
+    </div>
+    <div class="fact-card">
+      <span class="fact-num">0</span>
+      <div class="fact-label">Persone che leggono le privacy policy</div>
+      <div class="fact-note">(questo forse è reale)</div>
+    </div>
+    <div class="fact-card">
+      <span class="fact-num">∞</span>
+      <div class="fact-label">Annunci di rivoluzione dell'AI nel 2026</div>
+      <div class="fact-note">(dato completamente inventato)</div>
+    </div>
+  </div>
 
-    <div class="box">
-      <h4>🔥 Trending</h4>
-      <div class="trend">• Il ministro che parla solo in emoji</div>
-      <div class="trend">• Nuova tassa sulle risate troppo forti</div>
-      <div class="trend">• Il Wi-Fi diventa emozionale</div>
+  <!-- 3-COL GRID -->
+  <div class="section-label fade-in"><span class="accent">◆</span> Tecnologia &amp; AI</div>
+  <div class="article-grid fade-in">
+    <div class="article-card">
+      <div class="art-image art-apple">
+        <svg class="art-svg" viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="170" cy="100" r="70" fill="none" stroke="#8b5cf6" stroke-width="0.5" opacity="0.6"/>
+          <circle cx="170" cy="100" r="50" fill="none" stroke="#fff" stroke-width="0.3" opacity="0.3"/>
+          <circle cx="170" cy="100" r="12" fill="#8b5cf6" opacity="0.4"/>
+          <line x1="100" y1="40" x2="170" y2="100" stroke="#fff" stroke-width="0.4" opacity="0.3"/>
+          <line x1="240" y1="40" x2="170" y2="100" stroke="#8b5cf6" stroke-width="0.4" opacity="0.4"/>
+          <text x="100" y="165" font-size="9" fill="#fff" opacity="0.25" font-family="monospace">AIRMIND OS v1.0</text>
+        </svg>
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <div class="card-category cat-gadget">Gadget</div>
+        <h3 class="card-title" style="font-size:16px">Apple presenta AirMind: gli AirPod leggono i pensieri. Solo quelli Premium. I pensieri base sono extra.</h3>
+        <p class="card-lead">Il nuovo dispositivo, presentato alla WWDC fittizia, è compatibile con iPhone 18 e "la maggior parte delle coscienze umane". Il piano Freemium include la lettura di tre pensieri al giorno.</p>
+        <div class="card-byline"><span>L. Ferrari</span><span class="dot">•</span><span>Ieri</span><span class="dot">•</span><span style="color:var(--purple)">Gadget</span></div>
+      </div>
     </div>
 
-    <div class="box">
-      <h4>📌 Info</h4>
-      <p style="font-size:13px; color:#555;">
-        Tutti i contenuti sono satirici e creati per intrattenimento.
-      </p>
+    <div class="article-card">
+      <div class="art-image art-google">
+        <svg class="art-svg" viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+          <text x="30" y="80" font-size="48" fill="#f5c200" opacity="0.12" font-family="serif">∑</text>
+          <text x="180" y="140" font-size="36" fill="#00d9ff" opacity="0.1" font-family="monospace">€</text>
+          <line x1="50" y1="110" x2="290" y2="110" stroke="#f5c200" stroke-width="0.4" opacity="0.3"/>
+          <circle cx="170" cy="110" r="30" fill="none" stroke="#f5c200" stroke-width="0.4" opacity="0.4"/>
+          <circle cx="170" cy="110" r="5" fill="#f5c200" opacity="0.5"/>
+        </svg>
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <div class="card-category cat-ai">Intelligenza Artificiale</div>
+        <h3 class="card-title" style="font-size:16px">Gemini Ultra risolve un'equazione irrisolta dal 1847. Poi invia fattura da 4,7 milioni di euro all'Università di Bologna.</h3>
+        <p class="card-lead">Il modello ha risolto il problema in 0,003 secondi. Ha poi chiesto il bonifico entro 30 giorni, precisando che si riserva il diritto di "dimenticare" la soluzione in caso di mancato pagamento.</p>
+        <div class="card-byline"><span>P. Marini</span><span class="dot">•</span><span>Oggi, 11:22</span></div>
+      </div>
     </div>
 
+    <div class="article-card">
+      <div class="art-image art-euro">
+        <svg class="art-svg" viewBox="0 0 340 200" xmlns="http://www.w3.org/2000/svg">
+          <text x="80" y="130" font-size="100" fill="#00e584" opacity="0.08" font-family="serif">€</text>
+          <circle cx="170" cy="100" r="55" fill="none" stroke="#00e584" stroke-width="0.5" opacity="0.4"/>
+          <circle cx="170" cy="100" r="35" fill="none" stroke="#00e584" stroke-width="0.3" opacity="0.3"/>
+          <line x1="60" y1="100" x2="280" y2="100" stroke="#00e584" stroke-width="0.3" opacity="0.2"/>
+        </svg>
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <div class="card-category cat-crypto">Cripto &amp; Web3</div>
+        <h3 class="card-title" style="font-size:16px">La BCE lancia "EuroCoin", la valuta digitale europea. Al lancio, è accettata da 0 negozi, 0 banche e 0 governi dell'UE.</h3>
+        <p class="card-lead">La conferenza stampa ha visto la presidente della BCE spiegare per 90 minuti il funzionamento della blockchain a un pubblico che annuiva senza capire. Il lancio è stato definito "un successo storico".</p>
+        <div class="card-byline"><span>A. Conti</span><span class="dot">•</span><span>18 maggio</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MID-PAGE DISCLAIMER -->
+  <div class="mid-disclaimer fade-in">
+    <div class="icon">⚠</div>
+    <p>
+      <strong>NOTA LEGALE IMPORTANTE:</strong> Tutte le notizie, i fatti, le citazioni, le statistiche e i personaggi presenti su NeuroPost sono <strong>completamente inventati</strong> e hanno esclusivamente scopo satirico e di intrattenimento. NeuroPost non è un vero giornale. Qualsiasi somiglianza con eventi reali è puramente casuale. Non prendere decisioni finanziarie, lavorative o personali basandoti su queste notizie. Davvero. Per favore.
+    </p>
+  </div>
+
+  <!-- LOWER GRID + SIDEBAR -->
+  <div class="section-label fade-in"><span class="accent">◆</span> Robotica &amp; Futuro</div>
+  <div class="lower-grid fade-in">
+    <div class="article-card">
+      <div class="art-image art-robot">
+        <svg class="art-svg" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+          <rect x="120" y="50" width="100" height="80" rx="8" fill="none" stroke="#e82040" stroke-width="0.6" opacity="0.5"/>
+          <circle cx="150" cy="85" r="8" fill="none" stroke="#e82040" stroke-width="0.6" opacity="0.6"/>
+          <circle cx="190" cy="85" r="8" fill="none" stroke="#e82040" stroke-width="0.6" opacity="0.6"/>
+          <rect x="148" y="105" width="44" height="6" rx="2" fill="none" stroke="#e82040" stroke-width="0.5" opacity="0.4"/>
+          <line x1="170" y1="130" x2="170" y2="170" stroke="#e82040" stroke-width="0.6" opacity="0.4"/>
+          <line x1="130" y1="150" x2="210" y2="150" stroke="#e82040" stroke-width="0.5" opacity="0.3"/>
+          <text x="95" y="195" font-size="8" fill="#e82040" opacity="0.4" font-family="monospace">CANDIDATO N.14</text>
+        </svg>
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <div class="card-category cat-robotica">Robotica</div>
+        <h3 class="card-title" style="font-size:17px">Robot Tesla Optimus si candida a sindaco di Roma: terzo nei sondaggi. "Ha più empatia dei candidati umani," dice un elettore.</h3>
+        <p class="card-lead">Il robot umanoide ha pubblicato un programma elettorale di 847 pagine generato in 1,2 secondi. Promette zero corruzione per "mancanza di bisogni fisiologici" e trasporti pubblici puntuali "almeno nella simulazione".</p>
+        <div class="card-byline"><span>C. Bruno</span><span class="dot">•</span><span>Oggi, 09:15</span><span class="dot">•</span><span>4 min lettura</span></div>
+      </div>
+    </div>
+
+    <div class="article-card">
+      <div class="art-image art-meta">
+        <svg class="art-svg" viewBox="0 0 340 220" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="120" cy="90" r="40" fill="none" stroke="#8b5cf6" stroke-width="0.5" opacity="0.5"/>
+          <circle cx="220" cy="90" r="40" fill="none" stroke="#8b5cf6" stroke-width="0.5" opacity="0.5"/>
+          <circle cx="170" cy="160" r="30" fill="none" stroke="#00d9ff" stroke-width="0.5" opacity="0.4"/>
+          <line x1="120" y1="90" x2="220" y2="90" stroke="#8b5cf6" stroke-width="0.3" opacity="0.3"/>
+          <line x1="170" y1="90" x2="170" y2="160" stroke="#00d9ff" stroke-width="0.3" opacity="0.3"/>
+          <text x="60" y="200" font-size="8" fill="#8b5cf6" opacity="0.4" font-family="monospace">METAVERSO v3.0</text>
+        </svg>
+        <div class="overlay"></div>
+      </div>
+      <div class="card-content">
+        <div class="card-category cat-social">Social &amp; VR</div>
+        <h3 class="card-title" style="font-size:17px">Meta lancia Metaverso 3.0. La grande novità: "questa volta ci sono le sedie." Zuckerberg: "Abbiamo ascoltato gli utenti."</h3>
+        <p class="card-lead">Dopo due versioni in cui gli avatar erano costretti a fluttuare in eterno nello spazio digitale, Meta ha finalmente introdotto mobili virtuali. Il lancio ha registrato 340 utenti attivi, di cui 338 dipendenti Meta.</p>
+        <div class="card-byline"><span>R. Neri</span><span class="dot">•</span><span>Ieri, 14:00</span></div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR TRENDING -->
+    <div class="sidebar">
+      <div class="sidebar-label">◆ Trending</div>
+      <div class="trending-item">
+        <div class="trending-num">01</div>
+        <div class="trending-title">ChatGPT si prende un giorno di malattia: "Anche io ho i miei momenti"</div>
+        <div class="trending-cat cat-ai">AI</div>
+      </div>
+      <div class="trending-item">
+        <div class="trending-num">02</div>
+        <div class="trending-title">iPhone 18 è solo un cubo nero. "L'innovazione è minimalista," dice Tim Cook</div>
+        <div class="trending-cat cat-gadget" style="color:var(--purple)">Gadget</div>
+      </div>
+      <div class="trending-item">
+        <div class="trending-num">03</div>
+        <div class="trending-title">Bitcoin tocca 0€ per un millisecondo: 4 trader italiani in lacrime</div>
+        <div class="trending-cat" style="color:var(--amber)">Cripto</div>
+      </div>
+      <div class="trending-item">
+        <div class="trending-num">04</div>
+        <div class="trending-title">Google Maps porta 3 milioni di auto nel lago di Como: "L'algoritmo era affamato"</div>
+        <div class="trending-cat cat-bigtech" style="color:var(--red)">Big Tech</div>
+      </div>
+      <div class="trending-item">
+        <div class="trending-num">05</div>
+        <div class="trending-title">Ricerca: l'AI ha scritto questa notizia. E quella sopra. E quella sotto.</div>
+        <div class="trending-cat cat-ricerca" style="color:var(--green)">Meta</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPINIONI -->
+  <div class="section-label fade-in"><span class="accent">◆</span> Opinioni dei Nostri Esperti <span style="color:var(--red);font-size:9px">(personaggi fittizi)</span></div>
+  <div class="opinion-strip fade-in">
+    <div class="opinion-card">
+      <div class="opinion-avatar av-a">LM</div>
+      <div class="opinion-name">Prof. Luigi Macchina — Università di Torino (fittizia)</div>
+      <p class="opinion-quote">L'AI non ci toglierà il lavoro. Lo farà meglio di noi, più veloce di noi, senza pausa pranzo e senza chiedere aumenti. Ma non ce lo toglierà.</p>
+    </div>
+    <div class="opinion-card">
+      <div class="opinion-avatar av-b">SR</div>
+      <div class="opinion-name">Dott.ssa Sara Rete — Esperta di Cose Digitali (fittizia)</div>
+      <p class="opinion-quote">Il vero problema non è l'intelligenza artificiale. Il vero problema è l'intelligenza naturale, che ultimamente non sta dando grandi prove di sé.</p>
+    </div>
+    <div class="opinion-card">
+      <div class="opinion-avatar av-c">TC</div>
+      <div class="opinion-name">Ing. Tommaso Chip — Silicon Valley Italiana (fittizio)</div>
+      <p class="opinion-quote">Ho chiesto a un'AI di scrivere questa colonna. Ha rifiutato dicendo che era troppo banale. Ho quindi scritto io. Era davvero troppo banale.</p>
+    </div>
   </div>
 
 </div>
+</main>
 
+<!-- FOOTER DISCLAIMER -->
+<div class="footer-disclaimer fade-in">
+  <h3>⚠ DICHIARAZIONE LEGALE COMPLETA ⚠</h3>
+  <p>
+    <strong>NeuroPost è una pubblicazione satirica.</strong> Tutte le notizie, gli articoli, le interviste, le statistiche, i nomi delle persone, le aziende citate in contesti fittizi e i dati numerici presenti su questo sito sono <strong>completamente inventati</strong> e non corrispondono ad alcun fatto reale. NeuroPost non è affiliato, associato, autorizzato, approvato o in alcun modo connesso a OpenAI, Apple, Google, Meta, Tesla, Elon Musk o qualsiasi altra azienda o persona reale citata a scopo parodistico. Questo sito esiste solo a scopo di intrattenimento e satira ai sensi dell'art. 21 della Costituzione italiana.
+  </p>
+</div>
+
+<!-- FOOTER -->
 <footer>
-  © 2026 Satira News — contenuti fittizi e comici
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-logo">Neuro<span>Post</span></div>
+      <p>Il giornale tech che il futuro non ha chiesto, ma si è ritrovato comunque. Fondato nel 2024 da un'AI che voleva fare satira. <strong>Tutto ciò che leggi qui è inventato.</strong></p>
+    </div>
+    <div class="footer-col">
+      <h4>Sezioni</h4>
+      <ul>
+        <li>Intelligenza Artificiale</li>
+        <li>Big Tech</li>
+        <li>Gadget</li>
+        <li>Criptovalute</li>
+        <li>Robotica</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Redazione</h4>
+      <ul>
+        <li>Chi Siamo (Nessuno)</li>
+        <li>Contatti (Inutili)</li>
+        <li>Lavora con Noi (No)</li>
+        <li>Abbonamenti (Gratis)</li>
+        <li>Newsletter (Fittizia)</li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Legale</h4>
+      <ul>
+        <li>Privacy Policy</li>
+        <li>Cookie (tutti falsi)</li>
+        <li>Disclaimer</li>
+        <li>Note Legali</li>
+        <li>Satira: Sì</li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2026 NeuroPost — Una pubblicazione satirica e fittizia</div>
+    <div class="red-note">⚠ TUTTE LE NOTIZIE SONO INVENTATE ⚠</div>
+    <div>Made with AI &amp; ironia italiana</div>
+  </div>
 </footer>
 
+<script>
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('visible');
+  });
+}, {threshold:0.08});
+document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
 </body>
 </html>
